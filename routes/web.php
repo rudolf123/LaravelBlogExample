@@ -12,5 +12,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::view('/','welcome' );
 
 Route::resource('category', 'App\Http\Controllers\CategoryController');

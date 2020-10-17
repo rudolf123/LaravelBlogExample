@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Consultation;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -25,7 +26,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('category.create');
     }
 
     /**
@@ -36,7 +37,21 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'=>'required',
+            'description'=>'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $category = new Category();
+        $category->name = $request->get('name');
+        $category->description = $request->get('description');
+        $imageName = time().'.'.request()->image->getClientOriginalExtension();
+        request()->image->move(public_path('storage'), $imageName);
+        $category->image = $imageName;
+        $category->save();
+
+        return redirect('category');
     }
 
     /**
@@ -58,7 +73,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        //$category = Category::find($id);
+
+        return view('category.edit', compact('category'));
     }
 
     /**
@@ -70,7 +87,21 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'name'=>'required',
+            'description'=>'required',
+        ]);
+
+        $category->name = $request->get('name');
+        $category->description = $request->get('description');
+        if($request->has('image'))
+        {
+            $imageName = time().'.'.request()->image->getClientOriginalExtension();
+            request()->image->move(public_path('storage'), $imageName);
+            $category->image = $imageName;
+        }
+        $category->save();
+        return redirect('category');
     }
 
     /**
@@ -81,6 +112,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect('category');
     }
 }
