@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NewsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,5 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::view('/','welcome' );
+Route::get('/news/{id}/showNewsByCategory', 'App\Http\Controllers\NewsController@showNewsByCategory')->name('news.showNewsByCategory');;
 
 Route::resource('category', 'App\Http\Controllers\CategoryController');
+Route::resource('news', 'App\Http\Controllers\NewsController');

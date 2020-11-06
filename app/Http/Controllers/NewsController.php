@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\News;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -13,7 +15,13 @@ class NewsController extends Controller
      */
     public function index()
     {
-        //
+
+    }
+
+    public function showNewsByCategory($category_id)
+    {
+        $category = Category::find($category_id);
+        return view('news.index')->with('news', $category->news)->with('category', $category);
     }
 
     /**
@@ -21,9 +29,15 @@ class NewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $category = '';
+        if(request()->filled('category_id'))
+            $category = Category::find(request()->category_id);
+        else
+            $category = Category::all()->first();
+        $categories = Category::all();
+        return view('news.create')->with('category', $category)->with('categories',$categories);
     }
 
     /**
@@ -34,7 +48,20 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'header'=>'required',
+            'content'=>'required',
+        ]);
+
+        $news = new News();
+        $news->header = $request->get('header');
+        $news->content = $request->get('content');
+        $news->category_id = $request->get('category_id');
+        $news->publication_time = date('Y-m-d H:i:s');
+
+        $news->save();
+
+        return redirect('category');
     }
 
     /**
@@ -54,7 +81,7 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(News $news)
     {
         //
     }
@@ -77,8 +104,9 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(News $news)
     {
-        //
+        $news->delete();
+        return redirect('category');
     }
 }

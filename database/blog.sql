@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Окт 23 2020 г., 07:53
+-- Время создания: Ноя 06 2020 г., 12:50
 -- Версия сервера: 5.7.11
 -- Версия PHP: 7.0.3
 
@@ -57,7 +57,7 @@ INSERT INTO `categories` (`id`, `created_at`, `updated_at`, `name`, `description
 (1, NULL, '2020-10-17 06:25:07', 'Игры1', 'Описание свежих новинок', 'games.jpg'),
 (2, NULL, NULL, 'Политика', 'Последние новости из мира политики', 'politic.jpg'),
 (9, '2020-10-17 05:15:56', '2020-10-17 06:14:23', 'Breaking Bad', 'Все новости о сериале', '1602925989.jpg'),
-(10, '2020-10-17 05:16:50', '2020-10-17 05:16:50', 'Котики', 'Все про котиков-наркотиков', '1602922610.jpg'),
+(10, '2020-10-17 05:16:50', '2020-10-23 09:39:09', 'Котики', 'Все про котиков', '1602922610.jpg'),
 (11, '2020-10-22 09:47:25', '2020-10-22 09:47:25', 'hjgjhg', 'iuoiu', '1603370844.jpg');
 
 -- --------------------------------------------------------
@@ -99,7 +99,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (4, '2020_10_09_120022_create_articles_table', 1),
 (5, '2020_10_09_120715_create_categories_table', 2),
 (6, '2020_10_09_144448_create_news_table', 3),
-(7, '2020_10_16_132717_add_category_fields', 4);
+(7, '2020_10_16_132717_add_category_fields', 4),
+(8, '2020_11_06_113959_news_add_category_id', 5);
 
 -- --------------------------------------------------------
 
@@ -113,8 +114,18 @@ CREATE TABLE `news` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `header` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `content` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `publication_time` datetime NOT NULL
+  `publication_time` datetime NOT NULL,
+  `category_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `news`
+--
+
+INSERT INTO `news` (`id`, `created_at`, `updated_at`, `header`, `content`, `publication_time`, `category_id`) VALUES
+(1, '2020-11-06 09:31:04', '2020-11-06 09:31:04', 'чясмячсм', 'ячсмячсм', '2020-11-06 12:31:04', 2),
+(4, '2020-11-06 09:47:08', '2020-11-06 09:47:08', 'xczxzvx', 'cvxzcvzxcv', '2020-11-06 12:47:08', 2),
+(5, '2020-11-06 09:48:10', '2020-11-06 09:48:10', 'dsfsadf', 'sfdaf', '2020-11-06 12:48:10', 1);
 
 -- --------------------------------------------------------
 
@@ -206,7 +217,7 @@ ALTER TABLE `articles`
 -- AUTO_INCREMENT для таблицы `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT для таблицы `failed_jobs`
 --
@@ -216,12 +227,12 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT для таблицы `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT для таблицы `news`
 --
 ALTER TABLE `news`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT для таблицы `users`
 --

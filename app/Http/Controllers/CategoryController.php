@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Consultation;
 use App\Models\Category;
 use Illuminate\Http\Request;
 

@@ -22,7 +22,7 @@
                     <div class="card-action">
                         <div class="row">
                             <div class="col s2">
-                                <a href="#" class="waves-effect waves-light yellow lighten-2 blue-text btn">Перейти</a>
+                                <a href="{{ route('news.showNewsByCategory', [$value->id])}}" class="waves-effect waves-light yellow lighten-2 blue-text btn">Перейти</a>
                             </div>
                             <div class="col s2 right">
                                 <form action="{{ route('category.destroy', [$value->id])}}" method="post">
