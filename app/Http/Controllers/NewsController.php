@@ -37,7 +37,12 @@ class NewsController extends Controller
         else
             $category = Category::all()->first();
         $categories = Category::all();
-        return view('news.create')->with('category', $category)->with('categories',$categories);
+
+        $r = '';
+        if(request()->filled('r'))
+            $r = request()->r;
+
+        return view('news.create')->with('category', $category)->with('categories',$categories)->with('r', $r);
     }
 
     /**
@@ -49,8 +54,8 @@ class NewsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'header'=>'required',
-            'content'=>'required',
+            'header' => 'required',
+            'content' => 'required',
         ]);
 
         $news = new News();
@@ -60,8 +65,12 @@ class NewsController extends Controller
         $news->publication_time = date('Y-m-d H:i:s');
 
         $news->save();
-
-        return redirect('category');
+        $r = '';
+        if (request()->filled('r')) {
+            $r = request()->r;
+            return redirect($r);
+        } else
+            return redirect('category');
     }
 
     /**
@@ -83,7 +92,14 @@ class NewsController extends Controller
      */
     public function edit(News $news)
     {
-        //
+        $category = Category::find($news->category_id);
+        $categories = Category::all();
+
+        $r = '';
+        if(request()->filled('r'))
+            $r = request()->r;
+
+        return view('news.edit', compact('news'))->with('category', $category)->with('categories',$categories)->with('r', $r);
     }
 
     /**
@@ -93,9 +109,22 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, News $news)
     {
-        //
+        $request->validate([
+            'header' => 'required',
+            'content' => 'required',
+        ]);
+
+        $news->header = $request->get('header');
+        $news->content = $request->get('content');
+        $news->category_id = $request->get('category_id');
+        $news->save();
+        if (request()->filled('r')) {
+            $r = request()->r;
+            return redirect($r);
+        } else
+        return redirect('category');
     }
 
     /**

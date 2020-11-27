@@ -3,7 +3,7 @@
 @section('content')
     <h2 class="center-align">Новости в категории {{$category->name}}</h2>
     <div class="row">
-        <a href="{{ route('news.create', ['category_id' => $category->id]) }}" class="waves-effect waves-light green lighten-1 btn"><i class="material-icons">add</i>Добавить новую</a>
+        <a href="{{ route('news.create', ['category_id' => $category->id, 'r' => url('/news/'.$category->id.'/showNewsByCategory')]) }}" class="waves-effect waves-light green lighten-1 btn"><i class="material-icons">add</i>Добавить новую</a>
     </div>
     <div class="divider"></div>
 
@@ -29,7 +29,7 @@
                                 </form>
                             </div>
                             <div class="right">
-                                <a href="{{ route('news.edit', [$value]) }}" class="waves-effect waves-light blue btn"><i class="material-icons">edit</i></a>
+                                <a href="{{ route('news.edit', [$value, 'r' => url('/news/'.$category->id.'/showNewsByCategory')]) }}" class="waves-effect waves-light blue btn"><i class="material-icons">edit</i></a>
                             </div>
                             </div>
                         </div>
